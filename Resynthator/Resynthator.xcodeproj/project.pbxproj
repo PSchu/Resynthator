@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E4BB00C11D1B0843009635C4 /* Resynthator.h in Headers */ = {isa = PBXBuildFile; fileRef = E4BB00C01D1B0843009635C4 /* Resynthator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6BA35F621D1BCDDA00689DC9 /* Resynthator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4BB00BD1D1B0843009635C4 /* Resynthator.framework */; };
 		E4BB00CC1D1B0B09009635C4 /* Resynthator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BB00CB1D1B0B09009635C4 /* Resynthator.swift */; };
 		E4BB00D71D1B0E13009635C4 /* ResynthatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BB00D61D1B0E13009635C4 /* ResynthatorTests.swift */; };
 		E4BB00D91D1B0E13009635C4 /* Resynthator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4BB00BD1D1B0843009635C4 /* Resynthator.framework */; };
@@ -30,7 +30,6 @@
 
 /* Begin PBXFileReference section */
 		E4BB00BD1D1B0843009635C4 /* Resynthator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Resynthator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E4BB00C01D1B0843009635C4 /* Resynthator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Resynthator.h; path = Sources/Resynthator.h; sourceTree = "<group>"; };
 		E4BB00C91D1B09CD009635C4 /* Info-iOS.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Info-iOS.plist"; path = "Sources/Info-iOS.plist"; sourceTree = "<group>"; };
 		E4BB00CB1D1B0B09009635C4 /* Resynthator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Resynthator.swift; path = Sources/Resynthator.swift; sourceTree = "<group>"; };
 		E4BB00CE1D1B0CE2009635C4 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -66,6 +65,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6BA35F621D1BCDDA00689DC9 /* Resynthator.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,7 +97,6 @@
 			isa = PBXGroup;
 			children = (
 				E4BB00C91D1B09CD009635C4 /* Info-iOS.plist */,
-				E4BB00C01D1B0843009635C4 /* Resynthator.h */,
 				E4BB00CB1D1B0B09009635C4 /* Resynthator.swift */,
 			);
 			name = Sources;
@@ -140,7 +139,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E4BB00C11D1B0843009635C4 /* Resynthator.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -662,6 +660,7 @@
 				E4BB00DD1D1B0E13009635C4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E4BB00F21D1B0E4E009635C4 /* Build configuration list for PBXNativeTarget "Resynthator Example" */ = {
 			isa = XCConfigurationList;
@@ -670,6 +669,7 @@
 				E4BB00F41D1B0E4E009635C4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
