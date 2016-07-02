@@ -31,5 +31,26 @@ class ViewController: UIViewController {
     @IBAction func recitadeTextField(sender: AnyObject) {
         resynthator = textField.text.recitade()
     }
+    
+    @IBAction func back(sender: AnyObject) {
+        resynthator?.back()
+    }
+    
+    @IBAction func pause(sender: AnyObject) {
+        resynthator?.pause()
+    }
+    
+    @IBAction func resume(sender: AnyObject) {
+        resynthator?.resume()
+    }
+    
+    @IBAction func stop(sender: AnyObject) {
+        resynthator?.stop()
+    }
+    
+    @IBAction func next(sender: AnyObject) {
+        resynthator?.next()
+    }
+    
 }
 

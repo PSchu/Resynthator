@@ -9,48 +9,106 @@
 import Foundation
 import AVFoundation
 
+enum SynthesizerState {
+    case Playing
+    case Paused
+    case Stopped
+    
+    func enforceState(on synthesizer: AVSpeechSynthesizer) {
+        switch self {
+        case .Playing:
+            break
+        case .Paused:
+            print("enforced")
+            synthesizer.pauseSpeakingAtBoundary(.Immediate)
+        case .Stopped:
+            print("enforced")
+            synthesizer.stopSpeakingAtBoundary(.Immediate)
+        }
+    }
+}
 
-public class Resynthator {
-    let synthesizer = AVSpeechSynthesizer()
+public class Resynthator: NSObject {
+    private let synthesizer: AVSpeechSynthesizer
+    private var synthesizerState = SynthesizerState.Stopped
+    
     let paragraphs: [String]
     
-    init(paragraph: String) {
-        paragraphs = [paragraph]
+    convenience init(paragraph: String) {
+        self.init(paragraphs: [paragraph])
     }
     
     init(paragraphs: [String]) {
+        self.synthesizer = AVSpeechSynthesizer()
         self.paragraphs = paragraphs
+        super.init()
+        synthesizer.delegate = self
     }
     
-    func recitade() -> Self {
+    public func recitade() -> Self {
+        synthesizerState = .Playing
         let utterances = paragraphs.map(AVSpeechUtterance.init)
         utterances.forEach(synthesizer.speakUtterance)
         return self
     }
     
-    func stop() -> Self {
-        //Stop Reading
+    public func stop() -> Self {
+        synthesizerState = .Stopped
+        print(synthesizer.stopSpeakingAtBoundary(.Immediate))
         return self
     }
     
-    func resume() -> Self {
-        //Resume Reading
+    public func resume() -> Self {
+        synthesizerState = .Playing
+        print(synthesizer.continueSpeaking())
         return self
     }
     
-    func next() -> Self {
+    public func next() -> Self {
         //jump to next Paragraph
         return self
     }
     
-    func back() -> Self {
+    public func back() -> Self {
         //repeat current Paragraph or jump to last Paragraph if only not more the 2 seconds where spoken and not first Paragraph
         return self
     }
     
-    func `repeat`() -> Self {
+    public func pause() -> Self {
+        synthesizerState = .Paused
+        print(synthesizer.pauseSpeakingAtBoundary(.Immediate))
+        return self
+    }
+    
+    public func `repeat`() -> Self {
         //Repeat current Paragraph
         return self
+    }
+}
+
+extension Resynthator: AVSpeechSynthesizerDelegate {
+    public func speechSynthesizer(synthesizer: AVSpeechSynthesizer, didPauseSpeechUtterance utterance: AVSpeechUtterance) {
+       
+    }
+    
+    public func speechSynthesizer(synthesizer: AVSpeechSynthesizer, didStartSpeechUtterance utterance: AVSpeechUtterance) {
+    
+    }
+    
+    public func speechSynthesizer(synthesizer: AVSpeechSynthesizer, didCancelSpeechUtterance utterance: AVSpeechUtterance) {
+        
+    }
+    
+    public func speechSynthesizer(synthesizer: AVSpeechSynthesizer, didFinishSpeechUtterance utterance: AVSpeechUtterance) {
+        
+    }
+    
+    public func speechSynthesizer(synthesizer: AVSpeechSynthesizer, didContinueSpeechUtterance utterance: AVSpeechUtterance) {
+        
+    }
+    
+    public func speechSynthesizer(synthesizer: AVSpeechSynthesizer, willSpeakRangeOfSpeechString characterRange: NSRange, utterance: AVSpeechUtterance) {
+        synthesizerState.enforceState(on: synthesizer)
     }
 }
 
