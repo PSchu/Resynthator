@@ -27,6 +27,31 @@ public class Resynthator {
         utterances.forEach(synthesizer.speakUtterance)
         return self
     }
+    
+    func stop() -> Self {
+        //Stop Reading
+        return self
+    }
+    
+    func resume() -> Self {
+        //Resume Reading
+        return self
+    }
+    
+    func next() -> Self {
+        //jump to next Paragraph
+        return self
+    }
+    
+    func back() -> Self {
+        //repeat current Paragraph or jump to last Paragraph if only not more the 2 seconds where spoken and not first Paragraph
+        return self
+    }
+    
+    func `repeat`() -> Self {
+        //Repeat current Paragraph
+        return self
+    }
 }
 
 public extension String {
@@ -35,7 +60,7 @@ public extension String {
     }
 }
 
-public extension CollectionType where Generator.Element == String {
+public extension SequenceType where Generator.Element == String {
     func recitade() -> Resynthator {
         return Resynthator(paragraphs: Array(self)).recitade()
     }
