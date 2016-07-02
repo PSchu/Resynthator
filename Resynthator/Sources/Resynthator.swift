@@ -9,98 +9,109 @@
 import Foundation
 import AVFoundation
 
-enum SynthesizerState {
-    case Playing
-    case Paused
-    case Stopped
-    
-    func enforceState(on synthesizer: AVSpeechSynthesizer) {
-        switch self {
-        case .Playing:
-            break
-        case .Paused:
-            print("enforced")
-            synthesizer.pauseSpeakingAtBoundary(.Immediate)
-        case .Stopped:
-            print("enforced")
-            synthesizer.stopSpeakingAtBoundary(.Immediate)
-        }
-    }
-}
+typealias Paragraph = String
 
 public class Resynthator: NSObject {
     private let synthesizer: AVSpeechSynthesizer
-    private var synthesizerState = SynthesizerState.Stopped
+    private var current: Paragraph?
+    private var queuedAction: (() -> ())?
     
-    let paragraphs: [String]
+    let paragraphs: [Paragraph]
     
-    convenience init(paragraph: String) {
+    convenience init(paragraph: Paragraph) {
         self.init(paragraphs: [paragraph])
     }
     
-    init(paragraphs: [String]) {
+    init(paragraphs: [Paragraph]) {
         self.synthesizer = AVSpeechSynthesizer()
         self.paragraphs = paragraphs
         super.init()
         synthesizer.delegate = self
     }
     
-    public func recitade() -> Self {
-        synthesizerState = .Playing
-        let utterances = paragraphs.map(AVSpeechUtterance.init)
+    func recitade(range: Range<Int>) -> Self {
+        let utterances = paragraphs[range].map(AVSpeechUtterance.init)
         utterances.forEach(synthesizer.speakUtterance)
         return self
     }
     
+    public func recitade() -> Self {
+        return recitade(Range<Int>(start:0, end:paragraphs.count))
+    }
+    
     public func stop() -> Self {
-        synthesizerState = .Stopped
-        print(synthesizer.stopSpeakingAtBoundary(.Immediate))
+        synthesizer.stopSpeakingAtBoundary(.Immediate)
+        queuedAction = { [weak self] in self?.synthesizer.stopSpeakingAtBoundary(.Immediate) }
         return self
     }
     
     public func resume() -> Self {
-        synthesizerState = .Playing
-        print(synthesizer.continueSpeaking())
+        synthesizer.continueSpeaking()
         return self
     }
     
     public func next() -> Self {
-        //jump to next Paragraph
+        guard let current = current, let startIndex = paragraphs.indexOf(current) else { return self }
+        synthesizer.stopSpeakingAtBoundary(.Immediate)
+        queuedAction = { [weak self] in
+            self?.synthesizer.stopSpeakingAtBoundary(.Immediate)
+            
+            guard let strongSelf = self else { return }
+            strongSelf.recitade(Range<Int>(start:startIndex+1, end:strongSelf.paragraphs.count))
+        }
         return self
     }
     
     public func back() -> Self {
-        //repeat current Paragraph or jump to last Paragraph if only not more the 2 seconds where spoken and not first Paragraph
+        guard let current = current, let startIndex = paragraphs.indexOf(current) else { return self }
+        synthesizer.stopSpeakingAtBoundary(.Immediate)
+        queuedAction = { [weak self] in
+            self?.synthesizer.stopSpeakingAtBoundary(.Immediate)
+            
+            guard let strongSelf = self else { return }
+            strongSelf.recitade(Range<Int>(start:startIndex-1, end:strongSelf.paragraphs.count))
+        }
         return self
     }
     
     public func pause() -> Self {
-        synthesizerState = .Paused
-        print(synthesizer.pauseSpeakingAtBoundary(.Immediate))
+        synthesizer.pauseSpeakingAtBoundary(.Immediate)
+        queuedAction = { [weak self] in self?.synthesizer.pauseSpeakingAtBoundary(.Immediate) }
+
         return self
     }
     
     public func `repeat`() -> Self {
-        //Repeat current Paragraph
+        guard let current = current, let startIndex = paragraphs.indexOf(current) else { return self }
+        synthesizer.stopSpeakingAtBoundary(.Immediate)
+        queuedAction = { [weak self] in
+            self?.synthesizer.stopSpeakingAtBoundary(.Immediate)
+            
+            guard let strongSelf = self else { return }
+            strongSelf.recitade(Range<Int>(start:startIndex, end:strongSelf.paragraphs.count))
+        }
         return self
     }
 }
 
 extension Resynthator: AVSpeechSynthesizerDelegate {
     public func speechSynthesizer(synthesizer: AVSpeechSynthesizer, didPauseSpeechUtterance utterance: AVSpeechUtterance) {
-       
+        queuedAction?()
+        queuedAction = nil
     }
     
     public func speechSynthesizer(synthesizer: AVSpeechSynthesizer, didStartSpeechUtterance utterance: AVSpeechUtterance) {
-    
+        current = utterance.speechString
     }
     
     public func speechSynthesizer(synthesizer: AVSpeechSynthesizer, didCancelSpeechUtterance utterance: AVSpeechUtterance) {
-        
+        queuedAction?()
+        queuedAction = nil
     }
     
     public func speechSynthesizer(synthesizer: AVSpeechSynthesizer, didFinishSpeechUtterance utterance: AVSpeechUtterance) {
-        
+        queuedAction?()
+        queuedAction = nil
     }
     
     public func speechSynthesizer(synthesizer: AVSpeechSynthesizer, didContinueSpeechUtterance utterance: AVSpeechUtterance) {
@@ -108,7 +119,8 @@ extension Resynthator: AVSpeechSynthesizerDelegate {
     }
     
     public func speechSynthesizer(synthesizer: AVSpeechSynthesizer, willSpeakRangeOfSpeechString characterRange: NSRange, utterance: AVSpeechUtterance) {
-        synthesizerState.enforceState(on: synthesizer)
+        queuedAction?()
+        queuedAction = nil
     }
 }
 
