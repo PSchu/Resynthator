@@ -9,19 +9,34 @@
 import Foundation
 import AVFoundation
 
-class Resynthator {
+
+public class Resynthator {
     let synthesizer = AVSpeechSynthesizer()
+    let paragraphs: [String]
     
-    static let instance = Resynthator()
+    init(paragraph: String) {
+        paragraphs = [paragraph]
+    }
     
-    func recitade(string: String) {
-        let utterance = AVSpeechUtterance(string: string)
-        synthesizer.speakUtterance(utterance)
+    init(paragraphs: [String]) {
+        self.paragraphs = paragraphs
+    }
+    
+    func recitade() -> Self {
+        let utterances = paragraphs.map(AVSpeechUtterance.init)
+        utterances.forEach(synthesizer.speakUtterance)
+        return self
     }
 }
 
 public extension String {
-    func recitade() {
-        Resynthator.instance.recitade(self)
+    func recitade() -> Resynthator {
+        return Resynthator(paragraph: self).recitade()
+    }
+}
+
+public extension CollectionType where Generator.Element == String {
+    func recitade() -> Resynthator {
+        return Resynthator(paragraphs: Array(self)).recitade()
     }
 }

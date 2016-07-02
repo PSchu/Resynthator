@@ -17,11 +17,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="OhI-CV-cPb">
-                                <rect key="frame" x="270" y="160" width="150" height="280"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="OhI-CV-cPb">
+                                <rect key="frame" x="195" y="145" width="210" height="310"/>
                                 <subviews>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" text="Lets read this shit" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="a80-o7-7tt">
-                                        <rect key="frame" x="0.0" y="0.0" width="150" height="250"/>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Lets read this shit" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="a80-o7-7tt">
+                                        <rect key="frame" x="30" y="0.0" width="150" height="250"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="250" id="1DS-v9-gTH"/>
@@ -30,11 +30,18 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i6v-4v-Iae">
-                                        <rect key="frame" x="45" y="250" width="60" height="30"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i6v-4v-Iae">
+                                        <rect key="frame" x="75" y="250" width="60" height="30"/>
                                         <state key="normal" title="Recitade"/>
                                         <connections>
                                             <action selector="recitadeTextField:" destination="BYZ-38-t0r" eventType="touchUpInside" id="hFd-jP-9b4"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H3x-R3-X5t">
+                                        <rect key="frame" x="0.0" y="280" width="210" height="30"/>
+                                        <state key="normal" title="Recitade Multy Paragraph Text"/>
+                                        <connections>
+                                            <action selector="recitadeMultyParagraphText:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aGy-Nz-wOr"/>
                                         </connections>
                                     </button>
                                 </subviews>

@@ -12,6 +12,7 @@ import Resynthator
 class ViewController: UIViewController {
 
     @IBOutlet weak var textField: UITextView!
+    var resynthator: Resynthator? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,9 +23,13 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    @IBAction func recitadeMultyParagraphText(sender: AnyObject) {
+        let paragraphs = ["This is a multi Paragraph Text", "where we will try out our Framework", "at some point we want to be able to", "jump between parts of this", "with the system Controlls for Audio"]
+        resynthator = paragraphs.recitade()
+    }
 
     @IBAction func recitadeTextField(sender: AnyObject) {
-        textField.text.recitade()
+        resynthator = textField.text.recitade()
     }
 }
 
