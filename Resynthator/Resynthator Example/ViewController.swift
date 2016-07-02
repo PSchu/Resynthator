@@ -11,10 +11,10 @@ import Resynthator
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var textField: UITextView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        Resynthator.printStuff()
     }
 
     override func didReceiveMemoryWarning() {
@@ -23,5 +23,8 @@ class ViewController: UIViewController {
     }
 
 
+    @IBAction func recitadeTextField(sender: AnyObject) {
+        textField.text.recitade()
+    }
 }
 
