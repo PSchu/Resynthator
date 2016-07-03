@@ -7,29 +7,64 @@
 //
 
 import XCTest
+@testable import Resynthator
 
 class ResynthatorTests: XCTestCase {
-    
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-    
+    var resynthator: Resynthator?
+    let testString = "This is a Test String for the Framework"
+    let testStrings = ["This is an Array of multiple String"," To Test if he reads also more", "and a little more"]
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
+        resynthator?.stop()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measureBlock {
-            // Put the code you want to measure the time of here.
+    func waitFor(expectation: XCTestExpectation, assert: () -> Bool) {
+        NSTimer.schedule(repeatInterval: 0.1) { timer in
+            if assert() {
+                timer.invalidate()
+                expectation.fulfill()
+            } else {
+                print("Not Yet")
+            }
         }
+    }
+    
+    func testReadSingleText() {
+        let expectation = expectationWithDescription("The Text should be read")
+        resynthator = testString.recitade()
+        waitFor(expectation) {
+            guard let synth = self.resynthator?.synthesizer else { return false }
+            return synth.speaking
+        }
+        waitForExpectationsWithTimeout(5, handler: nil)
+    }
+    
+    func testPause() {
+        let expectation = expectationWithDescription("The Text should be read then paused")
+        resynthator = testString.recitade()
+        NSTimer.schedule(delay: 2) { (timer) in
+            self.resynthator?.pause()
+            self.waitFor(expectation, assert: { () -> Bool in
+                guard let synth = self.resynthator?.synthesizer else { return false }
+                return synth.paused
+            })
+        }
+        waitForExpectationsWithTimeout(5, handler: nil)
+    }
+    
+    func testResume() {
+        let expectation = expectationWithDescription("The Text should be read then paused then resumed")
+        resynthator = testStrings.recitade()
+        NSTimer.schedule(delay: 1) { (timer) in
+            self.resynthator?.pause()
+            NSTimer.schedule(delay: 1) { (timer) in
+                self.resynthator?.resume()
+                self.waitFor(expectation, assert: { () -> Bool in
+                    guard let synth = self.resynthator?.synthesizer else { return false }
+                    return synth.speaking
+                })
+            }
+        }
+        waitForExpectationsWithTimeout(5, handler: nil)
     }
     
 }

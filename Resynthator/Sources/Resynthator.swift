@@ -12,7 +12,7 @@ import AVFoundation
 typealias Paragraph = String
 
 public class Resynthator: NSObject {
-    private let synthesizer: AVSpeechSynthesizer
+    let synthesizer: AVSpeechSynthesizer
     private var current: Paragraph?
     private var queuedAction: (() -> ())?
     
@@ -35,7 +35,7 @@ public class Resynthator: NSObject {
     }
     
     public func recitade() -> Self {
-        recitade(Range<Int>(start:0, end:paragraphs.count))
+        recitade(Range<Int>(0..<paragraphs.count))
         return self
     }
     
@@ -63,7 +63,7 @@ public class Resynthator: NSObject {
         if startIndex + 1 >= paragraphs.count {
             stop()
         } else {
-            stopAndStartNew(Range<Int>(start:startIndex+1, end:paragraphs.count))
+            stopAndStartNew(Range<Int>(startIndex+1..<paragraphs.count))
         }
     }
     
@@ -72,7 +72,7 @@ public class Resynthator: NSObject {
         if startIndex == 0 {
             `repeat`()
         } else {
-            stopAndStartNew(Range<Int>(start:startIndex-1, end:paragraphs.count))
+            stopAndStartNew(Range<Int>(startIndex-1..<paragraphs.count))
         }
     }
     
@@ -83,7 +83,7 @@ public class Resynthator: NSObject {
     
     public func `repeat`() {
         guard let current = current, let startIndex = paragraphs.indexOf(current) else { return }
-        stopAndStartNew(Range<Int>(start:startIndex, end:paragraphs.count))
+        stopAndStartNew(Range<Int>(startIndex..<paragraphs.count))
     }
 }
 
