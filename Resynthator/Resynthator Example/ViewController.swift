@@ -52,5 +52,8 @@ class ViewController: UIViewController {
         resynthator?.next()
     }
     
+    @IBAction func `repeat`(sender: AnyObject) {
+        resynthator?.`repeat`()
+    }
 }
 

@@ -17,11 +17,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="19" translatesAutoresizingMaskIntoConstraints="NO" id="OhI-CV-cPb">
-                                <rect key="frame" x="162.5" y="101.5" width="275" height="397"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" alignment="center" spacing="19" translatesAutoresizingMaskIntoConstraints="NO" id="OhI-CV-cPb">
+                                <rect key="frame" x="163" y="102" width="210" height="446"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Lets read this shit" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="a80-o7-7tt">
-                                        <rect key="frame" x="62" y="0.0" width="150" height="250"/>
+                                        <rect key="frame" x="30" y="0.0" width="150" height="250"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="250" id="1DS-v9-gTH"/>
@@ -31,21 +31,47 @@
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i6v-4v-Iae">
-                                        <rect key="frame" x="107" y="269" width="60" height="30"/>
+                                        <rect key="frame" x="75" y="269" width="60" height="30"/>
                                         <state key="normal" title="Recitade"/>
                                         <connections>
                                             <action selector="recitadeTextField:" destination="BYZ-38-t0r" eventType="touchUpInside" id="hFd-jP-9b4"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H3x-R3-X5t">
-                                        <rect key="frame" x="32" y="318" width="210" height="30"/>
+                                        <rect key="frame" x="0.0" y="318" width="210" height="30"/>
                                         <state key="normal" title="Recitade Multy Paragraph Text"/>
                                         <connections>
                                             <action selector="recitadeMultyParagraphText:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aGy-Nz-wOr"/>
                                         </connections>
                                     </button>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="dmf-U2-Qg8">
-                                        <rect key="frame" x="0.0" y="367" width="275" height="30"/>
+                                        <rect key="frame" x="21" y="367" width="169" height="30"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2fO-zy-jWK">
+                                                <rect key="frame" x="0.0" y="0.0" width="42" height="30"/>
+                                                <state key="normal" title="Pause"/>
+                                                <connections>
+                                                    <action selector="pause:" destination="BYZ-38-t0r" eventType="touchUpInside" id="hMa-y0-QnQ"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MhT-KG-O3p">
+                                                <rect key="frame" x="62" y="0.0" width="55" height="30"/>
+                                                <state key="normal" title="Resume"/>
+                                                <connections>
+                                                    <action selector="resume:" destination="BYZ-38-t0r" eventType="touchUpInside" id="NL6-Co-vpe"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DAx-n0-7j8">
+                                                <rect key="frame" x="137" y="0.0" width="32" height="30"/>
+                                                <state key="normal" title="Stop"/>
+                                                <connections>
+                                                    <action selector="stop:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dfz-ca-Ya1"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="sga-gV-jX6">
+                                        <rect key="frame" x="28" y="416" width="155" height="30"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0eP-NM-QZe">
                                                 <rect key="frame" x="0.0" y="0.0" width="34" height="30"/>
@@ -54,29 +80,15 @@
                                                     <action selector="back:" destination="BYZ-38-t0r" eventType="touchUpInside" id="wQe-ii-nRL"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2fO-zy-jWK">
-                                                <rect key="frame" x="54" y="0.0" width="42" height="30"/>
-                                                <state key="normal" title="Pause"/>
+                                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lfb-YE-ecn">
+                                                <rect key="frame" x="54" y="0.0" width="49" height="30"/>
+                                                <state key="normal" title="Repeat"/>
                                                 <connections>
-                                                    <action selector="pause:" destination="BYZ-38-t0r" eventType="touchUpInside" id="hMa-y0-QnQ"/>
+                                                    <action selector="repeat:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8Mn-fZ-vfp"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MhT-KG-O3p">
-                                                <rect key="frame" x="116" y="0.0" width="55" height="30"/>
-                                                <state key="normal" title="Resume"/>
-                                                <connections>
-                                                    <action selector="resume:" destination="BYZ-38-t0r" eventType="touchUpInside" id="NL6-Co-vpe"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DAx-n0-7j8">
-                                                <rect key="frame" x="191" y="0.0" width="32" height="30"/>
-                                                <state key="normal" title="Stop"/>
-                                                <connections>
-                                                    <action selector="stop:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dfz-ca-Ya1"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4ee-f8-fFa">
-                                                <rect key="frame" x="243" y="0.0" width="32" height="30"/>
+                                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4ee-f8-fFa">
+                                                <rect key="frame" x="123" y="0.0" width="32" height="30"/>
                                                 <state key="normal" title="Next"/>
                                                 <connections>
                                                     <action selector="next:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bYZ-EO-jYj"/>

@@ -50,28 +50,25 @@ public class Resynthator: NSObject {
         return self
     }
     
-    public func next() -> Self {
-        guard let current = current, let startIndex = paragraphs.indexOf(current) else { return self }
+    private func stopAndStartNew(range: Range<Int>) -> Self {
         synthesizer.stopSpeakingAtBoundary(.Immediate)
         queuedAction = { [weak self] in
             self?.synthesizer.stopSpeakingAtBoundary(.Immediate)
             
             guard let strongSelf = self else { return }
-            strongSelf.recitade(Range<Int>(start:startIndex+1, end:strongSelf.paragraphs.count))
+            strongSelf.recitade(range)
         }
         return self
     }
     
+    public func next() -> Self {
+        guard let current = current, let startIndex = paragraphs.indexOf(current) where startIndex + 1 < paragraphs.count else { return self }
+        return stopAndStartNew(Range<Int>(start:startIndex+1, end:paragraphs.count))
+    }
+    
     public func back() -> Self {
-        guard let current = current, let startIndex = paragraphs.indexOf(current) else { return self }
-        synthesizer.stopSpeakingAtBoundary(.Immediate)
-        queuedAction = { [weak self] in
-            self?.synthesizer.stopSpeakingAtBoundary(.Immediate)
-            
-            guard let strongSelf = self else { return }
-            strongSelf.recitade(Range<Int>(start:startIndex-1, end:strongSelf.paragraphs.count))
-        }
-        return self
+        guard let current = current, let startIndex = paragraphs.indexOf(current) where startIndex-1 >= 0  else { return self }
+        return stopAndStartNew(Range<Int>(start:startIndex-1, end:paragraphs.count))
     }
     
     public func pause() -> Self {
@@ -83,14 +80,7 @@ public class Resynthator: NSObject {
     
     public func `repeat`() -> Self {
         guard let current = current, let startIndex = paragraphs.indexOf(current) else { return self }
-        synthesizer.stopSpeakingAtBoundary(.Immediate)
-        queuedAction = { [weak self] in
-            self?.synthesizer.stopSpeakingAtBoundary(.Immediate)
-            
-            guard let strongSelf = self else { return }
-            strongSelf.recitade(Range<Int>(start:startIndex, end:strongSelf.paragraphs.count))
-        }
-        return self
+        return stopAndStartNew(Range<Int>(start:startIndex, end:paragraphs.count))
     }
 }
 
