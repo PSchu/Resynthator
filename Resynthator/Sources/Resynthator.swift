@@ -29,28 +29,26 @@ public class Resynthator: NSObject {
         synthesizer.delegate = self
     }
     
-    func recitade(range: Range<Int>) -> Self {
+    func recitade(range: Range<Int>) {
         let utterances = paragraphs[range].map(AVSpeechUtterance.init)
         utterances.forEach(synthesizer.speakUtterance)
-        return self
     }
     
     public func recitade() -> Self {
-        return recitade(Range<Int>(start:0, end:paragraphs.count))
+        recitade(Range<Int>(start:0, end:paragraphs.count))
+        return self
     }
     
-    public func stop() -> Self {
+    public func stop() {
         synthesizer.stopSpeakingAtBoundary(.Immediate)
         queuedAction = { [weak self] in self?.synthesizer.stopSpeakingAtBoundary(.Immediate) }
-        return self
     }
     
-    public func resume() -> Self {
+    public func resume() {
         synthesizer.continueSpeaking()
-        return self
     }
     
-    private func stopAndStartNew(range: Range<Int>) -> Self {
+    private func stopAndStartNew(range: Range<Int>) {
         synthesizer.stopSpeakingAtBoundary(.Immediate)
         queuedAction = { [weak self] in
             self?.synthesizer.stopSpeakingAtBoundary(.Immediate)
@@ -58,29 +56,34 @@ public class Resynthator: NSObject {
             guard let strongSelf = self else { return }
             strongSelf.recitade(range)
         }
-        return self
     }
     
-    public func next() -> Self {
-        guard let current = current, let startIndex = paragraphs.indexOf(current) where startIndex + 1 < paragraphs.count else { return self }
-        return stopAndStartNew(Range<Int>(start:startIndex+1, end:paragraphs.count))
+    public func next() {
+        guard let current = current, let startIndex = paragraphs.indexOf(current) else { return }
+        if startIndex + 1 >= paragraphs.count {
+            stop()
+        } else {
+            stopAndStartNew(Range<Int>(start:startIndex+1, end:paragraphs.count))
+        }
     }
     
-    public func back() -> Self {
-        guard let current = current, let startIndex = paragraphs.indexOf(current) where startIndex-1 >= 0  else { return self }
-        return stopAndStartNew(Range<Int>(start:startIndex-1, end:paragraphs.count))
+    public func back() {
+        guard let current = current, let startIndex = paragraphs.indexOf(current) else { return }
+        if startIndex == 0 {
+            `repeat`()
+        } else {
+            stopAndStartNew(Range<Int>(start:startIndex-1, end:paragraphs.count))
+        }
     }
     
-    public func pause() -> Self {
+    public func pause() {
         synthesizer.pauseSpeakingAtBoundary(.Immediate)
         queuedAction = { [weak self] in self?.synthesizer.pauseSpeakingAtBoundary(.Immediate) }
-
-        return self
     }
     
-    public func `repeat`() -> Self {
-        guard let current = current, let startIndex = paragraphs.indexOf(current) else { return self }
-        return stopAndStartNew(Range<Int>(start:startIndex, end:paragraphs.count))
+    public func `repeat`() {
+        guard let current = current, let startIndex = paragraphs.indexOf(current) else { return }
+        stopAndStartNew(Range<Int>(start:startIndex, end:paragraphs.count))
     }
 }
 
@@ -115,13 +118,13 @@ extension Resynthator: AVSpeechSynthesizerDelegate {
 }
 
 public extension String {
-    func recitade() -> Resynthator {
+    @warn_unused_result func recitade() -> Resynthator {
         return Resynthator(paragraph: self).recitade()
     }
 }
 
 public extension SequenceType where Generator.Element == String {
-    func recitade() -> Resynthator {
+    @warn_unused_result func recitade() -> Resynthator {
         return Resynthator(paragraphs: Array(self)).recitade()
     }
 }
