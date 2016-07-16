@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6BA35F621D1BCDDA00689DC9 /* Resynthator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4BB00BD1D1B0843009635C4 /* Resynthator.framework */; };
+		87179F061D3AC1DF00190923 /* ResynthatorDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87179F051D3AC1DF00190923 /* ResynthatorDelegateTests.swift */; };
 		87F5DFF71D28F1EE00CB51C7 /* NSTimer+Closure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F5DFF61D28F1EE00CB51C7 /* NSTimer+Closure.swift */; };
 		E4BB00CC1D1B0B09009635C4 /* Resynthator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BB00CB1D1B0B09009635C4 /* Resynthator.swift */; };
 		E4BB00D71D1B0E13009635C4 /* ResynthatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BB00D61D1B0E13009635C4 /* ResynthatorTests.swift */; };
@@ -30,6 +31,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		87179F051D3AC1DF00190923 /* ResynthatorDelegateTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResynthatorDelegateTests.swift; sourceTree = "<group>"; };
 		87F5DFF61D28F1EE00CB51C7 /* NSTimer+Closure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSTimer+Closure.swift"; sourceTree = "<group>"; };
 		E4BB00BD1D1B0843009635C4 /* Resynthator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Resynthator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4BB00C91D1B09CD009635C4 /* Info-iOS.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Info-iOS.plist"; path = "Sources/Info-iOS.plist"; sourceTree = "<group>"; };
@@ -116,6 +118,7 @@
 			isa = PBXGroup;
 			children = (
 				E4BB00D61D1B0E13009635C4 /* ResynthatorTests.swift */,
+				87179F051D3AC1DF00190923 /* ResynthatorDelegateTests.swift */,
 				87F5DFF61D28F1EE00CB51C7 /* NSTimer+Closure.swift */,
 				E4BB00D81D1B0E13009635C4 /* Info.plist */,
 			);
@@ -281,6 +284,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				87179F061D3AC1DF00190923 /* ResynthatorDelegateTests.swift in Sources */,
 				87F5DFF71D28F1EE00CB51C7 /* NSTimer+Closure.swift in Sources */,
 				E4BB00D71D1B0E13009635C4 /* ResynthatorTests.swift in Sources */,
 			);

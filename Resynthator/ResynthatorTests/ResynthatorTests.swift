@@ -9,14 +9,7 @@
 import XCTest
 @testable import Resynthator
 
-class ResynthatorTests: XCTestCase {
-    var resynthator: Resynthator?
-    let testString = "This is a Test String for the Framework"
-    let testStrings = ["This is an Array of multiple Strings"," To Test if he reads also more", "and a little more"]
-    override func tearDown() {
-        resynthator?.stop()
-    }
-    
+extension XCTestCase {
     func waitFor(expectation: XCTestExpectation, assert: () -> Bool) {
         NSTimer.schedule(repeatInterval: 0.1) { timer in
             if assert() {
@@ -26,6 +19,16 @@ class ResynthatorTests: XCTestCase {
                 print("Not Yet")
             }
         }
+    }
+}
+
+class ResynthatorTests: XCTestCase {
+    var resynthator: Resynthator?
+    let testString = "This is a Test String for the Framework"
+    let testStrings = ["This is an Array of multiple Strings"," To Test if he reads also more", "and a little more"]
+    
+    override func tearDown() {
+        resynthator?.stop()
     }
     
     func testReadSingleText() {
@@ -67,7 +70,7 @@ class ResynthatorTests: XCTestCase {
         waitForExpectationsWithTimeout(5, handler: nil)
     }
     
-    var didFinish: Optional<() -> ()>
+    var didFinish: Optional<() -> ()> = nil
     func testPauseInbetweenUtterances() {
         let expectation = expectationWithDescription("The first Utterance/Paragraph should be read and then it should be paused befor the second starts")
         resynthator = testStrings.recitade()
