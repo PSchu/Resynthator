@@ -12,7 +12,7 @@ import XCTest
 class ResynthatorTests: XCTestCase {
     var resynthator: Resynthator?
     let testString = "This is a Test String for the Framework"
-    let testStrings = ["This is an Array of multiple String"," To Test if he reads also more", "and a little more"]
+    let testStrings = ["This is an Array of multiple Strings"," To Test if he reads also more", "and a little more"]
     override func tearDown() {
         resynthator?.stop()
     }
@@ -67,4 +67,24 @@ class ResynthatorTests: XCTestCase {
         waitForExpectationsWithTimeout(5, handler: nil)
     }
     
+    var didFinish: Optional<() -> ()>
+    func testPauseInbetweenUtterances() {
+        let expectation = expectationWithDescription("The first Utterance/Paragraph should be read and then it should be paused befor the second starts")
+        resynthator = testStrings.recitade()
+        resynthator?.delegate = self
+        didFinish = {
+            self.resynthator?.pause()
+        }
+        waitFor(expectation) { () -> Bool in
+            guard let synth = self.resynthator?.synthesizer else { return false }
+            return synth.paused
+        }
+        waitForExpectationsWithTimeout(5, handler: nil)
+    }
+}
+
+extension ResynthatorTests: ResynthatorDelegate {
+    func didFinish(paragraph: Paragraph) {
+        didFinish?()
+    }
 }

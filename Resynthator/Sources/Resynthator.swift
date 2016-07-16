@@ -9,12 +9,29 @@
 import Foundation
 import AVFoundation
 
-typealias Paragraph = String
+public typealias Paragraph = String
+
+public protocol ResynthatorDelegate: class {
+    func didPause(at paragraph: Paragraph)
+    func didStart(paragraph: Paragraph)
+    func didCancel(paragraph: Paragraph)
+    func didFinish(paragraph: Paragraph)
+    func didContinue(paragraph: Paragraph)
+}
+
+extension ResynthatorDelegate {
+    func didPause(at paragraph: Paragraph) {}
+    func didStart(paragraph: Paragraph) {}
+    func didCancel(paragraph: Paragraph) {}
+    func didFinish(paragraph: Paragraph) {}
+    func didContinue(paragraph: Paragraph) {}
+}
 
 public class Resynthator: NSObject {
     let synthesizer: AVSpeechSynthesizer
     private var current: Paragraph?
     private var queuedAction: (() -> ())?
+    public weak var delegate: ResynthatorDelegate?
     
     let paragraphs: [Paragraph]
     
@@ -87,28 +104,36 @@ public class Resynthator: NSObject {
     }
 }
 
+private extension CollectionType where Generator.Element == Paragraph {
+
+}
+
 extension Resynthator: AVSpeechSynthesizerDelegate {
     public func speechSynthesizer(synthesizer: AVSpeechSynthesizer, didPauseSpeechUtterance utterance: AVSpeechUtterance) {
+        delegate?.didPause(at: utterance.speechString)
         queuedAction?()
         queuedAction = nil
     }
     
     public func speechSynthesizer(synthesizer: AVSpeechSynthesizer, didStartSpeechUtterance utterance: AVSpeechUtterance) {
+        delegate?.didStart(utterance.speechString)
         current = utterance.speechString
     }
     
     public func speechSynthesizer(synthesizer: AVSpeechSynthesizer, didCancelSpeechUtterance utterance: AVSpeechUtterance) {
+        delegate?.didCancel(utterance.speechString)
         queuedAction?()
         queuedAction = nil
     }
     
     public func speechSynthesizer(synthesizer: AVSpeechSynthesizer, didFinishSpeechUtterance utterance: AVSpeechUtterance) {
-        queuedAction?()
-        queuedAction = nil
+        delegate?.didFinish(utterance.speechString)
+//        queuedAction?()
+//        queuedAction = nil
     }
     
     public func speechSynthesizer(synthesizer: AVSpeechSynthesizer, didContinueSpeechUtterance utterance: AVSpeechUtterance) {
-        
+        delegate?.didContinue(utterance.speechString)
     }
     
     public func speechSynthesizer(synthesizer: AVSpeechSynthesizer, willSpeakRangeOfSpeechString characterRange: NSRange, utterance: AVSpeechUtterance) {
